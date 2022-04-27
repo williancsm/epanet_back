@@ -1,28 +1,30 @@
-all: main clean-deps
+CC			:= gcc
+CFLAGS		:= -g -Wall
 
-CXX = clang++
-override CXXFLAGS += -g -Wno-everything
+SRC_DIR 		:= src
+BUILD_DIR 	:= build
+BIN_DIR			:= bin
+LIB_DIR			:= lib
+SRC_EXT 		:= c
+LIBTOOLKIT  := libepanet2.a
 
-SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
-OBJS = $(SRCS:.cpp=.o)
-DEPS = $(SRCS:.cpp=.d)
+SOURCES 	:= $(shell find $(SRC_DIR) -type f -name *.$(SRC_EXT))
+OBJECTS 	:= $(patsubst $(SRC_DIR)/%,$(BUILD_DIR)/%,$(SOURCES:.$(SRC_EXT)=.o))
+TARGET 		:= $(LIB_DIR)/$(LIBTOOLKIT)
 
-%.d: %.cpp
-	@set -e; rm -f "$@"; \
-	$(CXX) -MM $(CXXFLAGS) "$<" > "$@.$$$$"; \
-	sed 's,\([^:]*\)\.o[ :]*,\1.o \1.d : ,g' < "$@.$$$$" > "$@"; \
-	rm -f "$@.$$$$"
+$(TARGET): $(OBJECTS)
+	@echo " Creating static library..."
+	ar rcs $(TARGET) $(OBJECTS)
+	cp src/epanet2.h $(LIB_DIR)/
+	cp src/epanet2_enums.h $(LIB_DIR)/
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c "$<" -o "$@"
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT)
+	@echo "Creating the object files..."
+	@mkdir -p $(BUILD_DIR)
+	@echo " $(CC) $(CFLAGS) -c -o $@ $<"; $(CC) $(CFLAGS) -c -o $@ $<
 
-include $(DEPS)
-
-main: $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o "$@"
-
+.PHONY: clean
 clean:
-	rm -f $(OBJS) $(DEPS) main
+	@echo " Cleaning..."; 
+	@echo " $(RM) -r $(BUILD_DIR) $(TARGET)"; $(RM) -r $(BUILD_DIR) $(TARGET)
 
-clean-deps:
-	rm -f $(DEPS)
