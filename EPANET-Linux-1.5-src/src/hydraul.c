@@ -496,7 +496,7 @@ void  setlinkstatus(int index, char value, char *s, float *k)
 
         /* Reset link flow if it was originally closed */
         if (*s <= CLOSED) {
-            if (Link[index].Type == PUMP) pumpswitch (index, OPEN);
+            if (Link[index].Type == PUMP) pumpswitch (index, OPEN); // <- OK!
             initlinkflow(index, OPEN, *k);
         }
         *s = OPEN;
@@ -514,7 +514,7 @@ void  setlinkstatus(int index, char value, char *s, float *k)
 
         /* Reset link flow if it was originally open */
         if (*s > CLOSED) {
-            if(Link[index].Type == PUMP) pumpswitch(index, CLOSED);
+            if(Link[index].Type == PUMP) pumpswitch(index, CLOSED); // <- OK!
             initlinkflow(index, CLOSED, *k);
         }
         *s = CLOSED;
@@ -541,13 +541,13 @@ void  setlinksetting(int index, float value, char *status, float *k)
         if (value > 0 && *status <= CLOSED)
         {
             *status = OPEN;
-            pumpswitch (index, OPEN);
+            pumpswitch (index, OPEN);// <- OK!
             initlinkflow(index, OPEN, value);
         }
         else if (value == 0 && *status > CLOSED)
         {
             *status = CLOSED;
-            pumpswitch(index, CLOSED);
+            pumpswitch(index, CLOSED);// <- OK!
             initlinkflow(index, CLOSED, value);
         }
     }
