@@ -1,4 +1,4 @@
-# EPANET 2.2 toolkit
+# EPANET toolkit
 
 References: 
 - https://github.com/OpenWaterAnalytics/EPANET
