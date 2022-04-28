@@ -234,6 +234,7 @@ void initpointers(Project *pr)
     Network* nw = &pr->network;
     nw->Nnodes = 0;
     nw->Ntanks = 0;
+		nw->Nreservs = 0;
     nw->Njuncs = 0;
     nw->Nlinks = 0;
     nw->Npipes = 0;

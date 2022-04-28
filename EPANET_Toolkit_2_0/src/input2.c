@@ -161,6 +161,7 @@ int readdata(Project *pr)
     net->Nnodes = 0;
     net->Njuncs = 0;
     net->Ntanks = 0;
+	  net->Nreservs = 0;
     net->Nlinks = 0;
     net->Npipes = 0;
     net->Npumps = 0;

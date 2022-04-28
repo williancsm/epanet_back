@@ -174,6 +174,8 @@ int tankdata(Project *pr)
     // Tank is reservoir
     if (n <= 3)
     {
+				// Add new reservoir to data base
+			  net->Nreservs++;
         // Head pattern supplied
         if (n == 3)
         {

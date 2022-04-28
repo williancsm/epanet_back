@@ -824,7 +824,8 @@ typedef struct {
     Ncontrols,             // Number of simple controls
     Nrules,                // Number of control rules
     Npats,                 // Number of time patterns
-    Ncurves;               // Number of data curves
+    Ncurves,               // Number of data curves
+		Nreservs;              // Number of reservoirs
 
   Snode    *Node;          // Node array
   Slink    *Link;          // Link array

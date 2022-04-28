@@ -331,11 +331,10 @@ int DLLEXPORT EN_getcount(EN_Project p, int object, int *count)
 		case EN_PUMPCOUNT:
         *count = net->Npumps;
         break;
-		/*@TODO:
 		case EN_RESERVCOUNT:
         *count = net->Nreservs;
-        break;*/
-		case EN_JUNCTIONCOUNT:
+        break;
+		case EN_JUNCCOUNT:
         *count = net->Njuncs;
         break;
     default:

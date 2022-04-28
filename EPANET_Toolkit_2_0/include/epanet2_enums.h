@@ -166,8 +166,9 @@ typedef enum {
   EN_CURVECOUNT    = 4,  //!< Number of data curves
   EN_CONTROLCOUNT  = 5,  //!< Number of simple controls
   EN_RULECOUNT     = 6,  //!< Number of rule-based controls
-	EN_JUNCTIONCOUNT = 7,  //!< Number of junctions
-	EN_PUMPCOUNT     = 8   //!< Number of pumps
+	EN_JUNCCOUNT     = 7,  //!< Number of junctions
+	EN_PUMPCOUNT     = 8,  //!< Number of pumps
+	EN_RESERVCOUNT   = 9   //!< Number of reservoirs
 } EN_CountType;
 
 /// Node Types
