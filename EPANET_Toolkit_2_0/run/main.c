@@ -107,8 +107,8 @@ int main(int argc, char* argv[])
     ENperror (ENopen (inp_filename, rep_filename, out_filename));
 
     ENgetcount(EN_LINKCOUNT,  &num_links);
-    //ENgetcount(EN_JUNCSCOUNT, &num_juncs);
-    //ENgetcount(EN_PUMPCOUNT, &num_pumps);
+    ENgetcount(EN_JUNCTIONCOUNT, &num_juncs);
+    ENgetcount(EN_PUMPCOUNT, &num_pumps);
     ENgetcount(EN_TANKCOUNT, &num_tanks);
     //ENgetcount(EN_RESERVCOUNT, &num_reservoirs);
     num_tanks = num_tanks - num_reservoirs;
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
     pump_index = malloc (sizeof(int) * num_pumps);
 
     for (i = 0; i < num_pumps; i++) {
-	ENgetpumpindex (i+1, &pump_index[i]);
+	//ENgetpumpindex (i+1, &pump_index[i]);
 	pump_id[i] = malloc(sizeof(char) * EN_MAXID);
 	ENgetlinkid (pump_index[i], pump_id[i]);
     }
@@ -192,11 +192,11 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < num_pumps; i++) {
         int sw, idletime;
-        ENgetpumpswitches (pump_index[i], &sw);
+        //ENgetpumpswitches (pump_index[i], &sw);
 	printf ("%s: (%8d)", pump_id[i], sw);
         total_sw += sw;
 
-        ENgetminstoptime (pump_index[i], &idletime);
+        //ENgetminstoptime (pump_index[i], &idletime);
 	printf ("[%11d]: ", idletime);
 
         if (idletime > 0)
