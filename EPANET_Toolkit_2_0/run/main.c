@@ -107,10 +107,10 @@ int main(int argc, char* argv[])
     ENperror (ENopen (inp_filename, rep_filename, out_filename));
 
     ENgetcount(EN_LINKCOUNT,  &num_links);
-    ENgetcount(EN_JUNCSCOUNT, &num_juncs);
-    ENgetcount(EN_PUMPCOUNT, &num_pumps);
+    //ENgetcount(EN_JUNCSCOUNT, &num_juncs);
+    //ENgetcount(EN_PUMPCOUNT, &num_pumps);
     ENgetcount(EN_TANKCOUNT, &num_tanks);
-    ENgetcount(EN_RESERVCOUNT, &num_reservoirs);
+    //ENgetcount(EN_RESERVCOUNT, &num_reservoirs);
     num_tanks = num_tanks - num_reservoirs;
 
     printf("Network: %s: %d links  %d junctions  %d pumps and  %d tanks\n\n",
@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
     tank_id = malloc(sizeof(char*)*num_tanks);
     tank_index = malloc(sizeof(int)*num_tanks);
     for (i = 0; i < num_tanks; i++) {
-	ENgettankindex (i+1, &tank_index[i]);
+	//ENgettankindex (i+1, &tank_index[i]);
 	tank_id[i] = malloc(sizeof(char) * EN_MAXID);
 	ENgetnodeid (tank_index[i], tank_id[i]);
     }
@@ -237,22 +237,22 @@ int main(int argc, char* argv[])
 
     printf ("\n");
 
-    ENgettotaldemand(&demand);
+    //ENgettotaldemand(&demand);
     printf ("Total demand: % 10.2f\n", demand);
 
-    ENgettotalinflow(&inflow);
+    //ENgettotalinflow(&inflow);
     printf ("Total inflow: % 10.2f\n", inflow);
     printf ("             = % 10.4f\n", demand + inflow);
     printf ("Total tanks:  % 10.4f m^3\n", totaltanks);
     printf ("Difference = %.2f \n",
             totaltanks*1.0e+03 - (demand  + inflow));
 
-    ENgettotalleakage(&inflow);
+    //ENgettotalleakage(&inflow);
     printf("Total leakage: %.2f\n", inflow);
 
     printf ("\n");
 
-    ENgettotalenergycost(&totalcost);
+    //ENgettotalenergycost(&totalcost);
     printf ("Total energy cost:   % 10.2f\n", totalcost);
 
 

@@ -21,7 +21,7 @@
 #
 #   cmake --build . --target SOME_TARGET --config Release
 #   cmake --build . --target epanet2 --config Release
-#   cmake --build . --target epanet2 --config Release
+#   cmake --build . --target runepanet --config Release
 #
 # More information:
 #   cmake --help
