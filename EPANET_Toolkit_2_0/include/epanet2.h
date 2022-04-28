@@ -264,6 +264,8 @@ extern "C" {
 
   int DLLEXPORT ENdeletelink(int index, int actionCode);
 
+	int DLLEXPORT ENgetpumpindex(int pump_index, int *link_index);
+
   int DLLEXPORT ENgetlinkindex(char *id, int *index);
 
   int DLLEXPORT ENgetlinkid(int index, char *id);

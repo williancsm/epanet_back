@@ -3375,6 +3375,22 @@ int DLLEXPORT EN_deletelink(EN_Project p, int index, int actionCode)
     return 0;
 }
 
+int DLLEXPORT EN_getpumpindex(EN_Project p, int pump_index, int *link_index)
+/*----------------------------------------------------------------
+**  Input:   pump index of a pump [1, Npumps]
+**  Output:  link index of a pump
+**  Returns: error code
+**  Purpose: retrieves the index of a pump link
+**----------------------------------------------------------------
+*/
+{
+		*link_index = 0;
+		if (!p->Openflag) return 102;
+    if((pump_index < 1)||(pump_index > p->network.Npumps)) return(204);
+    *link_index = p->network.Pump[pump_index].Link;
+    return 0;
+}
+
 int DLLEXPORT EN_getlinkindex(EN_Project p, char *id, int *index)
 /*----------------------------------------------------------------
 **  Input:   id = link ID name
