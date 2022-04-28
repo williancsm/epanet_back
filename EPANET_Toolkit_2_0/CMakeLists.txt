@@ -22,6 +22,7 @@
 #   cmake --build . --target SOME_TARGET --config Release
 #   cmake --build . --target epanet2 --config Release
 #   cmake --build . --target runepanet --config Release
+#   ./bin/runepanet ./bin/vanZyl.inp ./bin/schedules0
 #
 # More information:
 #   cmake --help
