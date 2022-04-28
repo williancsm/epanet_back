@@ -1115,7 +1115,16 @@ typedef struct Project *EN_Project;
   int DLLEXPORT EN_deletelink(EN_Project ph, int index, int actionCode);
 
   /**
-  @brief Gets the index of a pump given its link index.
+  @brief Gets the node index of a tank given its tank index (not reservoirs).
+  @param ph an EPANET project handle.
+  @param tank_index a tank's index.
+  @param[out] node_index the tank's index (starting from 1).
+  @return an error code.
+  */
+	int DLLEXPORT EN_gettankindex(EN_Project ph, int tank_index, int *node_index);
+
+  /**
+  @brief Gets the link index of a pump given its pump index.
   @param ph an EPANET project handle.
   @param pump_index a pump's index.
   @param[out] link_index the link's index (starting from 1).

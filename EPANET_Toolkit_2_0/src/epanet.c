@@ -3375,6 +3375,34 @@ int DLLEXPORT EN_deletelink(EN_Project p, int index, int actionCode)
     return 0;
 }
 
+int DLLEXPORT EN_gettankindex(EN_Project p, int tank_index, int *node_index)
+/*----------------------------------------------------------------
+**  Input:   tank index of a tank (not reservoirs) [1, Ntanks]
+**  Output:  node index of a tank (not reservoirs)
+**  Returns: error code
+**  Purpose: retrieves the index of a tank node
+**----------------------------------------------------------------
+*/
+{
+    int typecode;
+    int temp_index;
+    int k;
+
+		if (!p->Openflag) return 102;
+    if((tank_index <= 0)||(tank_index > p->network.Ntanks)) return(204);
+
+    temp_index = 0;
+    k = 1;
+    while(temp_index < tank_index) {
+        *node_index = p->network.Tank[k++].Node;
+        EN_getnodetype(p, *node_index, &typecode);
+        if(typecode == EN_TANK) {
+            temp_index++;
+        }
+    }
+    return 0;
+}
+
 int DLLEXPORT EN_getpumpindex(EN_Project p, int pump_index, int *link_index)
 /*----------------------------------------------------------------
 **  Input:   pump index of a pump [1, Npumps]

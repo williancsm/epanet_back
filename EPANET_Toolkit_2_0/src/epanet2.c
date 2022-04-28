@@ -458,6 +458,11 @@ int DLLEXPORT ENdeletelink(int index, int actionCode)
     return EN_deletelink(_defaultProject, index, actionCode);
 }
 
+int DLLEXPORT ENgettankindex(int tank_index, int *node_index)
+{
+		return EN_gettankindex(_defaultProject, tank_index, node_index);
+}
+
 int DLLEXPORT ENgetpumpindex(int pump_index, int *link_index) 
 {
 	return EN_getpumpindex(_defaultProject, pump_index, link_index);
