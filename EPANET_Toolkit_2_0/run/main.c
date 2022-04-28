@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
     pump_id = malloc (sizeof(char *) * num_pumps);
     pump_index = malloc (sizeof(int) * num_pumps);
 
-    for (i = 0; i < num_pumps; i++) {
+  for (i = 0; i < num_pumps; i++) {
 	ENgetpumpindex (i+1, &pump_index[i]);
 	pump_id[i] = malloc(sizeof(char) * EN_MAXID);
 	ENgetlinkid (pump_index[i], pump_id[i]);
@@ -129,10 +129,13 @@ int main(int argc, char* argv[])
 
     tank_id = malloc(sizeof(char*)*num_tanks);
     tank_index = malloc(sizeof(int)*num_tanks);
-    for (i = 0; i < num_tanks; i++) {
-	//ENgettankindex (i+1, &tank_index[i]);
+    
+	for (i = 0; i < num_tanks; i++) {
+	ENgettankindex (i+1, &tank_index[i]);
 	tank_id[i] = malloc(sizeof(char) * EN_MAXID);
 	ENgetnodeid (tank_index[i], tank_id[i]);
+		printf("Tank id: %s\n\n",
+           tank_id[i]);
     }
 
     pattern_index = malloc(sizeof(int)*num_pumps);
