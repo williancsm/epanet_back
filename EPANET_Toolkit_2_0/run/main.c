@@ -120,9 +120,11 @@ int main(int argc, char* argv[])
     pump_index = malloc (sizeof(int) * num_pumps);
 
     for (i = 0; i < num_pumps; i++) {
-	//ENgetpumpindex (i+1, &pump_index[i]);
+	ENgetpumpindex (i+1, &pump_index[i]);
 	pump_id[i] = malloc(sizeof(char) * EN_MAXID);
 	ENgetlinkid (pump_index[i], pump_id[i]);
+			printf("Pump id: %s\n\n",
+           pump_id[i]);
     }
 
     tank_id = malloc(sizeof(char*)*num_tanks);
