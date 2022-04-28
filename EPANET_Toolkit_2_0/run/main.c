@@ -107,14 +107,14 @@ int main(int argc, char* argv[])
     ENperror (ENopen (inp_filename, rep_filename, out_filename));
 
     ENgetcount(EN_LINKCOUNT,  &num_links);
-    ENgetcount(EN_JUNCTIONCOUNT, &num_juncs);
+    ENgetcount(EN_JUNCCOUNT, &num_juncs);
     ENgetcount(EN_PUMPCOUNT, &num_pumps);
     ENgetcount(EN_TANKCOUNT, &num_tanks);
-    //ENgetcount(EN_RESERVCOUNT, &num_reservoirs);
+    ENgetcount(EN_RESERVCOUNT, &num_reservoirs);
     num_tanks = num_tanks - num_reservoirs;
 
-    printf("Network: %s: %d links  %d junctions  %d pumps and  %d tanks\n\n",
-           inp_filename, num_links, num_juncs, num_pumps, num_tanks);
+    printf("Network: %s: %d links  %d junctions  %d pumps  %d tanks %d reservoirs\n\n",
+           inp_filename, num_links, num_juncs, num_pumps, num_tanks, num_reservoirs);
 
     pump_id = malloc (sizeof(char *) * num_pumps);
     pump_index = malloc (sizeof(int) * num_pumps);
