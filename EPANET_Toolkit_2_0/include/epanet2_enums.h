@@ -159,13 +159,15 @@ typedef enum {
 These options tell @ref EN_getcount which type of object to count.
 */
 typedef enum {
-  EN_NODECOUNT    = 0,  //!< Number of nodes (junctions + tanks + reservoirs)
-  EN_TANKCOUNT    = 1,  //!< Number of tanks and reservoirs
-  EN_LINKCOUNT    = 2,  //!< Number of links (pipes + pumps + valves)
-  EN_PATCOUNT     = 3,  //!< Number of time patterns
-  EN_CURVECOUNT   = 4,  //!< Number of data curves
-  EN_CONTROLCOUNT = 5,  //!< Number of simple controls
-  EN_RULECOUNT    = 6   //!< Number of rule-based controls
+  EN_NODECOUNT     = 0,  //!< Number of nodes (junctions + tanks + reservoirs)
+  EN_TANKCOUNT     = 1,  //!< Number of tanks and reservoirs
+  EN_LINKCOUNT     = 2,  //!< Number of links (pipes + pumps + valves)
+  EN_PATCOUNT      = 3,  //!< Number of time patterns
+  EN_CURVECOUNT    = 4,  //!< Number of data curves
+  EN_CONTROLCOUNT  = 5,  //!< Number of simple controls
+  EN_RULECOUNT     = 6,  //!< Number of rule-based controls
+	EN_JUNCTIONCOUNT = 7,  //!< Number of junctions
+	EN_PUMPCOUNT     = 8   //!< Number of pumps
 } EN_CountType;
 
 /// Node Types
