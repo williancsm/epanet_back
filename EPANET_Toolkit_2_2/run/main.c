@@ -200,11 +200,11 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < num_pumps; i++) {
         int sw, idletime;
-        //ENgetpumpswitches (pump_index[i], &sw);
+        ENgetpumpswitches (pump_index[i], &sw);
 	printf ("%s: (%8d)", pump_id[i], sw);
         total_sw += sw;
 
-        //ENgetminstoptime (pump_index[i], &idletime);
+        ENgetminstoptime (pump_index[i], &idletime);
 	printf ("[%11d]: ", idletime);
 
         if (idletime > 0)
@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
 
     printf ("\n");
 
-    //ENgettotalenergycost(&totalcost);
+    ENgettotalenergycost(&totalcost);
     printf ("Total energy cost:   % 10.2f\n", totalcost);
 
 		//Save hydraulic file
@@ -272,11 +272,13 @@ int main(int argc, char* argv[])
 		ENR_init(&dp_handle);
 	  ENR_open(dp_handle, out_filename);
 
-		//Node ID 12 n5
-	  //Node ID 13 n6
-		//Node ID 14 r1
-		//Node ID 15 t5
-		//Node ID 16 t6
+		/*
+		Node ID 12 n5
+	  Node ID 13 n6
+		Node ID 14 r1
+		Node ID 15 t5
+		Node ID 16 t6
+		*/
 		
 		float *output;
 	  char *name;

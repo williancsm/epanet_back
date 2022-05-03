@@ -347,6 +347,10 @@ int  pswitch(Project *pr)
                 {
                     writestatchange(pr, k, s, hyd->LinkStatus[k]);
                 }
+
+							  if (net->Control[i].Status != s)
+                    if (link->Type == PUMP) pumpswitch(pr, i, net->Control[i].Status);
+							
                 anychange = 1;
             }
         }

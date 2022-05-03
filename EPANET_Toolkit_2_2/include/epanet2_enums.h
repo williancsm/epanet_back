@@ -97,7 +97,8 @@ typedef enum {
   EN_PUMP_ECOST   = 21, //!< Pump average energy price
   EN_PUMP_EPAT    = 22, //!< Pump energy price time pattern index
   EN_LINK_INCONTROL = 23,  //!< Is present in any simple or rule-based control (= 1) or not (= 0)
-  EN_GPV_CURVE    = 24  //!< GPV head loss v. flow curve index
+  EN_GPV_CURVE    = 24,  //!< GPV head loss v. flow curve index
+	EN_SCHEDULE			= 25
 } EN_LinkProperty;
 
 /// Time parameters

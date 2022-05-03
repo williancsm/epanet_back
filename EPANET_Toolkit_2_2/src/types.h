@@ -448,6 +448,9 @@ typedef struct             // Pump Object
   int     Ecurve;          // effic. v. flow curve index
   int     Upat;            // utilization pattern index
   int     Epat;            // energy cost pattern index
+  int     Schedule_idx;
+	int     Schedule[24];
+  int     Switches;
   double  Ecost;           // unit energy cost
   Senergy Energy;          // energy usage statistics
 } Spump;
@@ -617,7 +620,8 @@ typedef struct {
     Energyflag,            // Energy report flag
     Nodeflag,              // Node report flag
     Linkflag,              // Link report flag
-    Fprinterr;             // File write error flag
+    Fprinterr,             // File write error flag
+		Nwarnings;
 
   long
     LineNum,               // Current line number

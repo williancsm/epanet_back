@@ -159,6 +159,9 @@ void inithyd(Project *pr, int initflag)
         pump->Energy.TotalCost = 0.0;
         pump->Energy.CurrentPower = 0.0;
         pump->Energy.CurrentEffic = 0.0;
+			  pump->Switches = 0;
+        pump->Schedule_idx = 0;
+			  for(int j = 0; j < 24; j++) pump->Schedule[j] = -1;
     }
 
     // Re-position hydraulics file
@@ -409,7 +412,11 @@ void  setlinkstatus(Project *pr, int index, char value, StatusType *s, double *k
         {
             *k = 1.0;
             // Check if a re-opened pump needs its flow reset            
-            if (*s == CLOSED) resetpumpflow(pr, index);
+            if (*s == CLOSED) 
+						{
+							pumpswitch(pr, index, OPEN);
+							resetpumpflow(pr, index);
+						}
         }
         if (t > PUMP &&  t != GPV) *k = MISSING;
         *s = OPEN;
@@ -419,6 +426,7 @@ void  setlinkstatus(Project *pr, int index, char value, StatusType *s, double *k
      else if (value == 0)
      {
          // Adjust link setting for pumps & valves
+			 	 if (*s == OPEN && t == PUMP) pumpswitch(pr, index, CLOSED);
          if (t == PUMP) *k = 0.0;
          if (t > PUMP && t != GPV) *k = MISSING;
          *s = CLOSED;
@@ -451,10 +459,15 @@ void  setlinksetting(Project *pr, int index, double value, StatusType *s,
         if (value > 0 && *s <= CLOSED)
         {
             // Check if a re-opened pump needs its flow reset
+						pumpswitch (pr, index, OPEN);
             resetpumpflow(pr, index);
             *s = OPEN;
         }
-        if (value == 0 && *s > CLOSED) *s = CLOSED;
+        if (value == 0 && *s > CLOSED) 
+				{
+					*s = CLOSED;
+					pumpswitch (pr, index, CLOSED);
+				}
     }
 
     // For FCV, activate it
@@ -616,9 +629,11 @@ int  controls(Project *pr)
             if (link->Type > PIPE) k2 = control->Setting;
             
             // Check if a re-opened pump needs its flow reset
-            if (link->Type == PUMP && s1 == CLOSED && s2 == OPEN)
-                resetpumpflow(pr, k);
-                
+            if (link->Type == PUMP) {
+							if (s1 == CLOSED && s2 == OPEN) resetpumpflow(pr, k);
+							if (s1 != s2) pumpswitch (pr, k, s2);
+						}                
+					
             if (s1 != s2 || k1 != k2)
             {
                 hyd->LinkStatus[k] = s2;
@@ -1150,3 +1165,30 @@ void resetpumpflow(Project *pr, int i)
         pr->hydraul.LinkFlow[i] = pump->Q0; 
 }
 
+/* 
+   This function updates the number of switches and the schedule
+   of a pump. Invoke this function whenever a pump changes status.
+   
+   index : link index of the pump.
+   status : new status of the pump.
+*/
+void pumpswitch (Project *pr, int index, char status)
+{
+		Network *net = &pr->network;		
+		Times   *time = &pr->times;
+	
+	  int pump_idx = findpump(net, index);
+		Spump *pump = &net->Pump[pump_idx];
+
+
+    /* Htime == 0 is ignored because if the final status is the same
+       as the initial status, there is no pump switch.  */
+    if (time->Htime > 0 && status != net->Link[index].Status) { 
+        pump->Switches++; 
+    }
+    
+    if (time->Htime < 24 * 3600 && pump->Schedule_idx < 24) {
+        pump->Schedule[pump->Schedule_idx] = time->Htime;
+        pump->Schedule_idx++;
+    }
+}

@@ -898,3 +898,28 @@ int  DLLEXPORT ENgettotalinflow(float *inflow)
 {
     return EN_gettotalinflow(_defaultProject, inflow);
 }
+
+int  DLLEXPORT ENgettotalenergycost(float *cost) 
+{
+		return EN_gettotalenergycost(_defaultProject, cost);
+}
+
+int  DLLEXPORT ENgetpumpswitches(int index, int *value)
+{
+		return EN_getpumpswitches(_defaultProject, index, value);
+}
+
+int	 DLLEXPORT ENgetminstoptime(int index, int *value)
+{
+		return EN_getminstoptime(_defaultProject, index, value);
+}
+
+int	 DLLEXPORT ENrulesclear(void)
+{
+		return EN_rulesclear(_defaultProject);
+}
+
+int	 DLLEXPORT ENgetnumwarnings(int *value)
+{
+		return EN_getnumwarnings(_defaultProject, value);
+}

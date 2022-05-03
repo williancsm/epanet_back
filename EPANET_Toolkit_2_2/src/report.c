@@ -1082,6 +1082,7 @@ int writehydwarn(Project *pr, int iter, double relerr)
         sprintf(pr->Msg, WARN02, clocktime(rpt->Atime, time->Htime));
         if (rpt->Messageflag) writeline(pr, pr->Msg);
         flag = 2;
+				rpt->Nwarnings++;
     }
 
     // Check for pressure deficient nodes
@@ -1102,6 +1103,7 @@ int writehydwarn(Project *pr, int iter, double relerr)
                 writeline(pr, pr->Msg);
             }
             flag = 6;
+						rpt->Nwarnings++;
         }
     }
 
@@ -1120,6 +1122,7 @@ int writehydwarn(Project *pr, int iter, double relerr)
                 writeline(pr, pr->Msg);
             }
             flag = 5;
+						rpt->Nwarnings++;
         }
     }
 
@@ -1143,6 +1146,7 @@ int writehydwarn(Project *pr, int iter, double relerr)
                 writeline(pr, pr->Msg);
             }
             flag = 4;
+						rpt->Nwarnings++;
         }
     }
 
@@ -1156,6 +1160,7 @@ int writehydwarn(Project *pr, int iter, double relerr)
             writeline(pr, pr->Msg);
         }
         flag = 1;
+				rpt->Nwarnings++;
     }
 
     // Check for disconnected network & update project's warning flag

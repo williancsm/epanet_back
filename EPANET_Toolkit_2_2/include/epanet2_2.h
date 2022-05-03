@@ -1841,6 +1841,45 @@ typedef struct Project *EN_Project;
   */
 	int  DLLEXPORT EN_gettotalinflow(EN_Project ph, float *inflow);
 
+  /**
+  @brief Gets pump total energy cost
+  @param ph an EPANET project handle.
+  @param[out] total cost
+  @return an error code.
+  */
+	int  DLLEXPORT EN_gettotalenergycost(EN_Project ph, float *cost);
+
+  /**
+  @brief Gets pump switches
+  @param link index of a pump
+	@param ph an EPANET project handle.
+  @param[out] pump switches
+  @return an error code.
+  */
+	int DLLEXPORT EN_getpumpswitches(EN_Project ph, int index, int *value);
+
+  /**
+  @brief Gets pump idle time
+  @param link index of a pump
+	@param ph an EPANET project handle.
+  @param[out] pump idle time
+  @return an error code.
+  */
+	int DLLEXPORT EN_getminstoptime(EN_Project ph, int index, int *value);
+
+	/**
+  @brief clear rules
+  @return an error code.
+  */
+	int DLLEXPORT EN_rulesclear(EN_Project ph);
+
+	/**
+  @brief get number of warnings
+  @param[out] number of warnings.
+ 	@return an error code.
+  */
+	int DLLEXPORT EN_getnumwarnings(EN_Project ph, int *value);
+
 
 #if defined(__cplusplus)
 }

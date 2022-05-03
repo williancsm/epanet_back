@@ -316,6 +316,16 @@ extern "C" {
 
   int DLLEXPORT ENsetheadcurveindex(int linkIndex, int curveIndex);
 
+	int DLLEXPORT ENgettotalenergycost(float *cost);
+
+	int DLLEXPORT ENgetpumpswitches(int index, int *value);
+
+	int DLLEXPORT ENgetminstoptime(int index, int *value);
+
+	int DLLEXPORT ENrulesclear(void);
+
+	int DLLEXPORT ENgetnumwarnings(int *value);
+
 /********************************************************************
 
     Time Pattern Functions

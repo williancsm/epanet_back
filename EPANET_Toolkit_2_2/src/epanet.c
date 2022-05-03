@@ -526,6 +526,7 @@ int DLLEXPORT EN_initH(EN_Project p, int initFlag)
     p->outfile.SaveHflag = FALSE;
     p->Warnflag = FALSE;
     // Reset total properties
+		p->report.Nwarnings = 0;
 	  p->hydraul.TotalSystemDemand = 0.0;
     p->hydraul.TotalSystemInflow = 0.0;
     p->hydraul.TotalSystemLeakage = 0.0;
@@ -3850,6 +3851,14 @@ int DLLEXPORT EN_getlinkvalue(EN_Project p, int index, int property, double *val
             v = (double)Pump[findpump(&p->network, index)].Epat;
         }
         break;
+
+		case EN_SCHEDULE:
+        if (Link[index].Type == PUMP)
+				{
+        		for (int i = 0; i < 24; i++) 
+							value[i] = Pump[findpump(&p->network, index)].Schedule[i];
+				}
+        break;
         
     case EN_GPV_CURVE:
         if (Link[index].Type == GPV)
@@ -5750,5 +5759,125 @@ int  DLLEXPORT EN_gettotalinflow(EN_Project p, float *inflow)
 */
 {
     *inflow = p->hydraul.TotalSystemInflow * p->Ucf[FLOW];
+    return 0;
+}
+
+int  DLLEXPORT EN_gettotalenergycost(EN_Project p, float *cost)
+/*----------------------------------------------------------------
+**  Output:  total energy cost per pump plus demand cost
+**  Returns: error code
+**  Purpose: get total energy cost
+**----------------------------------------------------------------
+*/
+{
+		Network *net = &p->network;
+		Hydraul *hyd = &p->hydraul;
+
+    if (!p->Openflag) return 102;
+
+    if (net->Npumps == 0) {
+        *cost = 0.0;
+        return 0;
+    }
+
+    *cost = 0.0;
+    for (int j = 1; j <= net->Npumps; j++)
+        *cost += net->Pump[j].Energy.TotalCost;
+
+    *cost +=  (hyd->Emax * hyd->Dcost);
+
+    return 0;
+}
+
+int DLLEXPORT EN_getpumpswitches(EN_Project p, int index, int *value)
+/*----------------------------------------------------------------
+**  Input:   link index of a pump
+**  Output:  number of switches (OFF->ON) of a pump
+**  Returns: error code
+**  Purpose: get pump switches
+**----------------------------------------------------------------
+*/
+{
+		Network *net = &p->network;
+		int pump_index = findpump(net, index);
+    if (!p->Openflag) return 102;
+	
+    if (index <= 0 || index > net->Nlinks) return 204;
+    *value = net->Pump[pump_index].Switches;
+    return 0;
+}
+
+int DLLEXPORT EN_getminstoptime(EN_Project p, int index, int *value)
+/*----------------------------------------------------------------
+**  Input:   node index of a pump
+**  Output:  shortest time interval (seconds) that pump was idle
+**  Returns: error code
+**  Purpose: get shortest time interval (seconds) that pump was idle
+**----------------------------------------------------------------
+*/
+{
+		Network *net = &p->network;
+    int s,  pump_idx, schedule_idx, errorcode;
+    double initial_status;
+
+    int temp_value;
+
+    pump_idx = findpump(net, index);
+    schedule_idx = net->Pump[pump_idx].Schedule_idx;
+
+    errorcode = EN_getlinkvalue(p, index, EN_INITSTATUS, &initial_status);
+    if(errorcode > 0) return (errorcode);
+
+    if (schedule_idx == 0) { // No pump status changes
+        *value = (initial_status == 1) ? (0) : (SECperDAY);
+
+    } else if (schedule_idx == 1) {
+        *value = (initial_status == 1)
+            ? ( SECperDAY - net->Pump[pump_idx].Schedule[0] )
+            : ( net->Pump[pump_idx].Schedule[0] );
+
+    } else {
+        // Initial idle interval
+        *value = (initial_status == 1)
+            ? (net->Pump[pump_idx].Schedule[1] - net->Pump[pump_idx].Schedule[0])
+            : (net->Pump[pump_idx].Schedule[0]);
+
+        if (schedule_idx % 2 == initial_status) {
+            // Last status change turns off, temp_value is idle time
+            temp_value = SECperDAY - net->Pump[pump_idx].Schedule[schedule_idx-1];
+
+            if (initial_status == 1 && net->Pump[pump_idx].Schedule[0] > 0 ) {
+                // No cycle: choose shortest
+                if (temp_value < *value) *value = temp_value;
+            } else { // Cycle: sum final and initial interval
+                *value = *value + temp_value;
+            }
+        }
+
+        // initial_status == 0 && Pump[pump_idx].Schedule[0] == 0
+        if (*value == 0) *value = SECperDAY; // set to maximum
+
+        for ( s = 2 + initial_status; s < schedule_idx; s += 2) {
+            temp_value = net->Pump[pump_idx].Schedule[s]
+                - net->Pump[pump_idx].Schedule[s-1];
+            if (temp_value < *value)  *value = temp_value;
+        }
+    }
+    return(0);
+}
+
+int DLLEXPORT EN_rulesclear(EN_Project p)
+{
+		Network *net = &p->network;
+		Parser *parser = &p->parser;
+    freerules(p);
+    net->Nrules = 0;
+  	parser->MaxRules = 0;
+    return 0;
+}
+
+int DLLEXPORT EN_getnumwarnings(EN_Project p, int *value)
+{
+		*value = p->report.Nwarnings;
     return 0;
 }

@@ -1680,7 +1680,6 @@ int DLLEXPORT ENgetlinkvalue(int index, int code, float *value)
             value[i] = Pump[pump_idx].Schedule[i];
         break;
 
-
     case EN_ENERGY:
         getenergy(index, value, &a);
         break;
@@ -3107,7 +3106,7 @@ int DLLEXPORT ENgetminstoptime(int index, int *value)
     return(0);
 }
 
-int DLLEXPORT ENrulesclear(void)
+int DLLEXPORT EN_rulesclear(void)
 {
         clearrules();
         Nrules = 0;
@@ -3119,6 +3118,7 @@ int DLLEXPORT ENgetnumwarnings(void)
 {
     return(Nwarnings);
 }
+
 int  DLLEXPORT ENgettotaldemand(float *demand)
 {
     *demand = TotalSystemDemand*Ucf[DEMAND];

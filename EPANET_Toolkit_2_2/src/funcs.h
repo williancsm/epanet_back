@@ -158,6 +158,7 @@ int     tanktimestep(Project *, long *);
 void    getenergy(Project *, int, double *, double *);
 double  tankvolume(Project *, int, double);
 double  tankgrade(Project *, int, double);
+void    pumpswitch (Project *, int, char);
 
 // ------- HYDCOEFFS.C -----------------
 
