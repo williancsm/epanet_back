@@ -37,7 +37,7 @@ DEBUG=1
 # =1 only checks are performed
 # =0 disable (fastest).
 
-LIBTOOLKIT=libtoolkit.a
+LIBTOOLKIT=libtoolkit.so
 LIB_DIR =../
 
 SRC_DIR=./
@@ -81,12 +81,13 @@ DIST_BIN := EPANET-Linux-$(VERSION)-lib
 .PHONY : all cleanall cleanexe clean toolkit dist tags
 
 # Create static library.
-toolkit : CFLAGS += -D LINUX
+# ar rcs $(LIB_DIR)/$(LIBTOOLKIT) $(OBJS)
+toolkit : CFLAGS += -D LINUX -fPIC
 toolkit : $(LIB_DIR)/$(LIBTOOLKIT) $(LIB_DIR)/toolkit.h
 
 $(LIB_DIR)/$(LIBTOOLKIT) : $(OBJS) $(HEADERS) $(LIB_DIR)/toolkit.h
 	$(call ECHO,--> Creating static library \"$(LIB_DIR)/$(LIBTOOLKIT)\" version $(VERSION) <---)
-	ar rcs $(LIB_DIR)/$(LIBTOOLKIT) $(OBJS)
+	$(CC) -shared -o $(LIB_DIR)/$(LIBTOOLKIT) $(OBJS)
 
 $(LIB_DIR)/toolkit.h :  $(OBJS) $(HEADERS)
 	cp toolkit.h $(LIB_DIR)/

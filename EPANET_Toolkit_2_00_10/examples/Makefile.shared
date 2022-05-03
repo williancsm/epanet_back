@@ -26,7 +26,7 @@
 # directory and not with respect the location of this file. In doubt,
 # just use an absolute path to libtoolkit.a and toolkit.h
 BASE_DIR := ../../
-LIBTOOLKIT := libtoolkit.a
+LIBTOOLKIT := libtoolkit.so
 LIBTOOLKIT_DIR := $(BASE_DIR)
 TOOLKIT_MAKE_DIR := $(LIBTOOLKIT_DIR)/src/
 override LIBTOOLKIT := $(LIBTOOLKIT_DIR)$(LIBTOOLKIT)
