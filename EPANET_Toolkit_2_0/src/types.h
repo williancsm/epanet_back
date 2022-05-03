@@ -720,7 +720,10 @@ typedef struct {
     Viscos,                // Kin. viscosity (sq ft/sec)
     SpGrav,                // Specific gravity
     Epump,                 // Global pump efficiency
-    Dsystem,               // Total system demand
+    Dsystem,               // Total system demand  
+		TotalSystemDemand,     // Total demand     
+    TotalSystemLeakage,    // Total leakage
+    TotalSystemInflow,     // Total inflow
     Ecost,                 // Base energy cost per kwh
     Dcost,                 // Energy demand charge/kw/day
     Emax,                  // Peak energy usage

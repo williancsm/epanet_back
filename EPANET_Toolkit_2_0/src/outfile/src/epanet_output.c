@@ -46,7 +46,6 @@
 #include "epanet_output.h"
 #include "messages.h"
 
-
 // NOTE: These depend on machine data model and may change when porting
 #define INT4  int          // Must be a 4 byte / 32 bit integer type
 #define REAL4 float        // Must be a 4 byte / 32 bit real type
@@ -231,9 +230,9 @@ int EXPORT_OUT_API ENR_getVersion(ENR_Handle p_handle, int* version)
 
     p_data = (data_t*)p_handle;
 
-    if (p_data == NULL) return -1;
+    if (p_data == NULL) return -1;			
     else
-    {
+    {			
         seek_file(p_data->file_handle, 1*WORDSIZE, SEEK_SET);
         if (read_file(version, WORDSIZE, 1, p_data->file_handle) != 1)
             errorcode = 436;
@@ -581,7 +580,7 @@ int EXPORT_OUT_API ENR_getNodeSeries(ENR_Handle p_handle, int nodeIndex, ENR_Nod
         // loop over and build time series
         for (k = 0; k < length; k++)
             temp[k] = getNodeValue(p_handle, startPeriod + k,
-                    nodeIndex, attr);
+                    nodeIndex, attr);			
 
         *outValueSeries = temp;
         *dim = length;

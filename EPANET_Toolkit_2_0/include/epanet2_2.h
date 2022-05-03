@@ -1817,6 +1817,31 @@ typedef struct Project *EN_Project;
   */
   int  DLLEXPORT EN_setrulepriority(EN_Project ph, int index, double priority);
 
+  /**
+  @brief Gets the total network demand.
+  @param ph an EPANET project handle.
+  @param[out] total demand
+  @return an error code.
+  */
+	int  DLLEXPORT EN_gettotaldemand(EN_Project ph, float *demand);
+
+  /**
+  @brief Gets the total network leakage.
+  @param ph an EPANET project handle.
+  @param[out] total leakage
+  @return an error code.
+  */
+	int  DLLEXPORT EN_gettotalleakage(EN_Project ph, float *leakage);
+
+  /**
+  @brief Gets the total network inflow.
+  @param ph an EPANET project handle.
+  @param[out] total inflow
+  @return an error code.
+  */
+	int  DLLEXPORT EN_gettotalinflow(EN_Project ph, float *inflow);
+
+
 #if defined(__cplusplus)
 }
 #endif

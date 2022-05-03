@@ -54,8 +54,7 @@ ENDIF (NOT BUILD_PY_LIB)
 # ------------ Add epanet-output library ------------
 # API for reading results from EPANET binary output file
 # Add a subdirectory to the build.
-# Removed
-# add_subdirectory(src/outfile)
+add_subdirectory(src/outfile)
 
 IF (BUILD_TESTS)
 	# Prep ourselves for compiling with boost

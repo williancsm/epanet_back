@@ -231,8 +231,9 @@ int  nexthyd(Project *pr, long *tstep)
 {
     Hydraul *hyd = &pr->hydraul;
     Times   *time = &pr->times;
+		Network *n = &pr->network;
 
-    long  hydstep;         // Actual time step
+    long  hydstep;   // Actual time step
     int   errcode = 0;     // Error code
 
     // Compute current power and efficiency of all pumps
@@ -252,6 +253,23 @@ int  nexthyd(Project *pr, long *tstep)
     // Accumulate pumping energy
     if (time->Dur == 0) addenergy(pr,0);
     else if (time->Htime < time->Dur) addenergy(pr,hydstep);
+
+		// Calculate total network properties
+	  if (time->Htime < time->Dur) {
+			float tmp_float = 0.0;
+			int i = 0.0;
+
+      hyd->TotalSystemDemand += hyd->Dsystem * hydstep;
+
+      for (i = 1, tmp_float = 0.0; i <= n->Njuncs; i++) tmp_float += hyd->EmitterFlow[i];
+      hyd->TotalSystemLeakage += tmp_float * hydstep;
+
+      for (i = 1, tmp_float = 0.0; i <= n->Ntanks; i++)
+      		if (n->Tank[i].A == 0.0)
+          		tmp_float += hyd->NodeDemand[n->Tank[i].Node];										
+			
+      hyd->TotalSystemInflow += tmp_float * hydstep;
+    }
 
     // More time remains - update current time
     if (time->Htime < time->Dur)

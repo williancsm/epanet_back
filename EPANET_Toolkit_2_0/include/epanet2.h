@@ -159,6 +159,12 @@ extern "C" {
   
   int  DLLEXPORT ENgetresultindex(int type, int index, int *value);
 
+	int  DLLEXPORT ENgettotaldemand(float *demand);
+
+	int  DLLEXPORT ENgettotalleakage(float *leakage);
+
+	int  DLLEXPORT ENgettotalinflow(float *inflow);
+
 /********************************************************************
 
     Analysis Options Functions

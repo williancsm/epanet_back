@@ -883,3 +883,18 @@ int DLLEXPORT ENsetrulepriority(int index, EN_API_FLOAT_TYPE priority)
 {
     return EN_setrulepriority(_defaultProject, index, priority);
 }
+
+int  DLLEXPORT ENgettotaldemand(float *demand)
+{
+    return EN_gettotaldemand(_defaultProject, demand);	
+}
+
+int  DLLEXPORT ENgettotalleakage(float *leakage)
+{
+    return EN_gettotalleakage(_defaultProject, leakage);
+}
+
+int  DLLEXPORT ENgettotalinflow(float *inflow)
+{
+    return EN_gettotalinflow(_defaultProject, inflow);
+}

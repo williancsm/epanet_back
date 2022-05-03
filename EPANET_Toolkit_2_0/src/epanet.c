@@ -525,6 +525,10 @@ int DLLEXPORT EN_initH(EN_Project p, int initFlag)
     // Reset status flags
     p->outfile.SaveHflag = FALSE;
     p->Warnflag = FALSE;
+    // Reset total properties
+	  p->hydraul.TotalSystemDemand = 0.0;
+    p->hydraul.TotalSystemInflow = 0.0;
+    p->hydraul.TotalSystemLeakage = 0.0;
 
     // Get values of save-to-file flag and reinitialize-flows flag
     fflag = initFlag / EN_INITFLOW;
@@ -5711,5 +5715,40 @@ int DLLEXPORT EN_setrulepriority(EN_Project p, int index, double priority)
 {
     if (index <= 0 || index > p->network.Nrules)  return 257;
     p->network.Rule[index].priority = priority;
+    return 0;
+}
+
+int  DLLEXPORT EN_gettotaldemand(EN_Project p, float *demand)
+/*-----------------------------------------------------------------------------
+**  Output:  total system demand
+**  Returns: error code
+**  Purpose: get total system demand
+**-----------------------------------------------------------------------------
+*/
+{
+    *demand = p->hydraul.TotalSystemDemand * p->Ucf[DEMAND];
+    return 0;
+}
+
+int  DLLEXPORT EN_gettotalleakage(EN_Project p, float *leakage)
+/*-----------------------------------------------------------------------------
+**  Output:  total system leakage
+**  Returns: error code
+**  Purpose: get total system leakage
+**-----------------------------------------------------------------------------
+*/
+{
+    *leakage = p->hydraul.TotalSystemLeakage * p->Ucf[VOLUME];
+    return 0;
+}
+
+int  DLLEXPORT EN_gettotalinflow(EN_Project p, float *inflow)
+/*-----------------------------------------------------------------------------
+**  Output:  total system inflow
+**  Purpose: get total system inflow
+**-----------------------------------------------------------------------------
+*/
+{
+    *inflow = p->hydraul.TotalSystemInflow * p->Ucf[FLOW];
     return 0;
 }

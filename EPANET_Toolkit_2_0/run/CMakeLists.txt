@@ -19,15 +19,17 @@ ENDIF (MSVC)
 
 # Set up file groups for exe target
 set(EPANET_CLI_SOURCES main.c)
-include_directories(include)
+
+# Add include directories to the build.
+include_directories(include) 
 
 source_group("CLI" FILES ${EPANET_CLI_SOURCES})
 
-
 # Creates the EPANET command line executable
 add_executable(runepanet ${EPANET_CLI_SOURCES})
+
 if(NOT WIN32)
-    target_link_libraries(runepanet LINK_PUBLIC epanet2 m)
+    target_link_libraries(runepanet LINK_PUBLIC epanet2 m epanet-output)
 else(NOT WIN32)
     target_link_libraries(runepanet LINK_PUBLIC epanet2)
 endif(NOT WIN32)

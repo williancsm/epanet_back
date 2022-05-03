@@ -30,10 +30,13 @@
 *************************************************************************/
 #include "epanet2.h"
 
+#include "epanet_output.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 #include <limits.h> /* for INT_MAX */
 
 #define MIN(A,B)  (((A) < (B)) ? (A) : (B))
@@ -85,8 +88,8 @@ int main(int argc, char* argv[])
 
     char inp_filename[EN_MAXMSG + 1];
     char pumps_filename[EN_MAXMSG + 1];
-    char rep_filename[EN_MAXMSG + 1] = "/dev/null";/* report.rpt"; */
-    char out_filename[EN_MAXMSG + 1] = ""; /* "binary.rpt"; */
+    char rep_filename[EN_MAXMSG + 1] = "./report.rpt";/* report.rpt"; */
+    char out_filename[EN_MAXMSG + 1] = "./binary.hyd"; /* "binary.rpt"; */
 
     char **pump_id;
     char **tank_id;
@@ -242,17 +245,17 @@ int main(int argc, char* argv[])
 
     printf ("\n");
 
-    //ENgettotaldemand(&demand);
+    ENgettotaldemand(&demand);
     printf ("Total demand: % 10.2f\n", demand);
 
-    //ENgettotalinflow(&inflow);
+    ENgettotalinflow(&inflow);
     printf ("Total inflow: % 10.2f\n", inflow);
     printf ("             = % 10.4f\n", demand + inflow);
     printf ("Total tanks:  % 10.4f m^3\n", totaltanks);
     printf ("Difference = %.2f \n",
             totaltanks*1.0e+03 - (demand  + inflow));
 
-    //ENgettotalleakage(&inflow);
+    ENgettotalleakage(&inflow);
     printf("Total leakage: %.2f\n", inflow);
 
     printf ("\n");
@@ -260,8 +263,45 @@ int main(int argc, char* argv[])
     //ENgettotalenergycost(&totalcost);
     printf ("Total energy cost:   % 10.2f\n", totalcost);
 
+		//Save hydraulic file
+		ENsaveH(out_filename);
+    ENclose();	
 
-    ENclose();
+	 	/* epnaet-output library example */	
+		ENR_Handle dp_handle;
+		ENR_init(&dp_handle);
+	  ENR_open(dp_handle, out_filename);
 
+		//Node ID 12 n5
+	  //Node ID 13 n6
+		//Node ID 14 r1
+		//Node ID 15 t5
+		//Node ID 16 t6
+		
+		float *output;
+	  char *name;
+		int len, err, dim, periods, *elements;	
+		float step = 3600.0;
+		
+
+		ENR_getNetSize(dp_handle, &elements, &len);
+		ENR_getTimes(dp_handle, ENR_numPeriods, &periods);	 
+		
+		printf ("\n");
+		for (int i = 12; i <= elements[0]; i++) 
+		{
+			err = ENR_getElementName(dp_handle, ENR_node, i, &name, &len);
+			if (err != 0) printf("ERROR %d", err);			
+			assert(err != 0);
+			
+			err = ENR_getNodeSeries(dp_handle, i, ENR_demand, 0, (periods - 1), &output, &dim);
+			if (err != 0) printf("ERROR %d", err);
+			assert(err != 0);
+			
+			float sum = 0.0;
+			for (int j = 0; j < (periods - 1); j++) sum += output[j] * step;
+			printf ("Total node[%d] %s demand: %f\n", i, name, sum);			
+		}
+	
     return 0;
 }
